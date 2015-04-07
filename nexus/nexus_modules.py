@@ -136,7 +136,7 @@ def make_nexus_admin_site(admin_site):
 
 def make_admin_module(admin_site, name=None, app_name='admin'):
     # XXX: might be a better API so we dont need to do this?
-    new_site = make_nexus_admin_site(admin_site)(name, app_name)
+    new_site = make_nexus_admin_site(admin_site)(name)
     for model, admin in admin_site._registry.iteritems():
         new_site.register(model, make_nexus_model_admin(admin))
 
@@ -146,7 +146,6 @@ def make_admin_module(admin_site, name=None, app_name='admin'):
 
         def __init__(self, *args, **kwargs):
             super(AdminModule, self).__init__(*args, **kwargs)
-            self.app_name = new_site.app_name
             self.name = new_site.name
             new_site.module = self
             # new_site.name = self.site.name
